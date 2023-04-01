@@ -1,0 +1,62 @@
+name: releaser
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+alpha[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+beta[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+rc[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+"
+permissions:
+  contents: write
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.get_version.outputs.tag }}
+    steps:
+      - name: Get the version
+        id: get_version
+        run: echo "tag=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.get_version.outputs.tag }}
+          draft: true
+          prerelease: false
+          body: |
+            ### ダウンロード
+            
+            - Windows - [386](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-windows-386.zip) / [amd64](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-windows-amd64.zip) / [arm64](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-windows-arm64.zip)
+            - Linux - [386](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-linux-386.zip) / [amd64](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-linux-amd64.zip) / [arm64](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-linux-arm64.zip)
+            - Darwin - [amd64](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-darwin-amd64.zip) / [arm64](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-darwin-arm64.zip) ]
+            
+            ### 変更点
+            
+            - ＊＊＊＊
+  releases-matrix:
+    name: Release Go Binary
+    needs: [create]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [windows, linux, darwin]
+        goarch: ["386", amd64, arm64]
+        exclude:
+          - goarch: "386"
+            goos: darwin
+    steps:
+    - uses: actions/checkout@v3
+    - uses: wangyoucao577/go-release-action@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        goos: ${{ matrix.goos }}
+        goarch: ${{ matrix.goarch }}
+        release_name: ${{ needs.create.outputs.tag }}
+        asset_name: minirh-${{ needs.create.outputs.tag }}-${{ matrix.goos }}-${{ matrix.goarch }}
+        build_flags: -buildvcs=false -trimpath
+        ldflags: "-s -w"
+        extra_files: LICENSE README.md
+        md5sum: FALSE
+
