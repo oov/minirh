@@ -26,13 +26,13 @@ jobs:
           draft: true
           prerelease: false
           body: |
-            ### ダウンロード
+            ### Download
             
-            - Windows - [386](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-windows-386.zip) / [amd64](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-windows-amd64.zip) / [arm64](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-windows-arm64.zip)
-            - Linux - [386](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-linux-386.zip) / [amd64](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-linux-amd64.zip) / [arm64](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-linux-arm64.zip)
-            - Darwin - [amd64](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-darwin-amd64.zip) / [arm64](https://github.com/oov/aviutl_psdtoolkit/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-darwin-arm64.zip) ]
+            - Windows - [386](https://github.com/oov/minirh/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-windows-386.zip) / [amd64](https://github.com/oov/minirh/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-windows-amd64.zip) / [arm64](https://github.com/oov/minirh/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-windows-arm64.zip)
+            - Linux - [386](https://github.com/oov/minirh/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-linux-386.zip) / [amd64](https://github.com/oov/minirh/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-linux-amd64.zip) / [arm64](https://github.com/oov/minirh/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-linux-arm64.zip)
+            - Darwin - [amd64](https://github.com/oov/minirh/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-darwin-amd64.zip) / [arm64](https://github.com/oov/minirh/releases/download/${{ steps.get_version.outputs.tag }}/minirh-${{ steps.get_version.outputs.tag }}-darwin-arm64.zip)
             
-            ### 変更点
+            ### Changes
             
             - ＊＊＊＊
   releases-matrix:
